@@ -137,15 +137,25 @@ select {
   color: #000;
   border: none;
   border-radius: 8px;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.18s ease, transform 0.06s ease;
 }
 
 .btn-login:hover {
   background-color: #ffcc00;
 }
 
+.btn-login:active {
+  transform: translateY(1px);
+}
+
+.btn-login:focus {
+  outline: 2px solid rgba(0,0,0,0.12);
+  outline-offset: 2px;
+}
+
+/* BOTÃO */
 /* CRIAR CONTA */
 .link-criar {
   margin-top: 20px;
@@ -162,11 +172,51 @@ select {
   text-decoration: underline;
 }
 
+.erro-content {
+  flex: 1 1 auto;
+}
+
+.erro-title {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.erro-text {
+  font-size: 14px;
+  line-height: 1.2;
+}
+
 .erro-login {
-  color: red;
-  text-align: center;
-  margin-bottom: 10px;
-  font-weight: 500;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: linear-gradient(180deg, #fff5f5 0%, #ffecec 100%);
+  border: 1px solid #ffb3b3;
+  color: #6b0000;
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
+.erro-icon {
+  font-size: 22px;
+  color: #b00000;
+  margin-top: 2px;
+}
+.erro-close {
+  background: transparent;
+  border: none;
+  color: #6b0000;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 6px;
+}
+
+.erro-close:focus {
+  outline: 2px solid rgba(183, 28, 28, 0.25);
+  border-radius: 4px;
 }
 
 

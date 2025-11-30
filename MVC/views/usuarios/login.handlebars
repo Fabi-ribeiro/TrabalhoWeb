@@ -37,6 +37,27 @@
 
         <a href="#" class="esqueceu-senha">Esqueceu sua senha?</a>
 
+        {{#if error}}
+          <div class="erro-login" role="alert" aria-live="assertive">
+            <div class="erro-content">
+              <strong class="erro-title">Erro</strong>
+              <div class="erro-text">{{{error}}}</div>
+            </div>
+            <button type="button" class="erro-close" aria-label="Fechar mensagem de erro">&times;</button>
+          </div>
+
+          <script>
+            // Fecha a mensagem de erro quando o usuário clica no botão
+            (function(){
+              const btn = document.querySelector('.erro-close');
+              if (btn) btn.addEventListener('click', () => {
+                const banner = btn.closest('.erro-login');
+                if (banner) banner.style.display = 'none';
+              });
+            })();
+          </script>
+        {{/if}}
+
         <button type="submit" class="btn-login">Entrar</button>
       </form>
     </div>
