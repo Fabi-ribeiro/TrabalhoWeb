@@ -1,12 +1,8 @@
 const { Op } = require("sequelize");
-const { Reserva, Sala, Item, Avaliacao } = require("../models");
+const { Reserva, Sala, Item, Avaliacao, ItensReserva } = require("../models");
 
 module.exports = {
-  /*
-    Atualizar reserva que já terminou: se ainda estiverem como
-    CONFIRMADA, trocamos para PENDENTE para que o admin verifique devolução
-    / liberação. 
-  */
+  /* Atualizar reservas que já terminaram */
   updateExpiredReservations: async () => {
     try {
       const tzOffset = new Date().getTimezoneOffset() * 60000;
@@ -35,14 +31,23 @@ module.exports = {
       await module.exports.updateExpiredReservations();
 
       const usuario = req.session.usuario;
-  // Calcular a data "hoje" no fuso local no formato YYYY-MM-DD
+  // Calcular a data "hoje" no fuso local 
   const tzOffset = new Date().getTimezoneOffset() * 60000; // em ms
   const hoje = new Date(Date.now() - tzOffset).toISOString().split('T')[0];
 
       const where = {};
 
-      // Reservas a partir de hoje (usando data_inicio como referência)
-      where.data_inicio = { [Op.gte]: hoje };
+      // Mostrar reservas que começam hoje ou depois, OU que já começaram e ainda estão em andamento
+      // (data_inicio >= hoje) OR (data_inicio <= hoje AND data_fim >= hoje)
+      where[Op.or] = [
+        { data_inicio: { [Op.gte]: hoje } },
+        {
+          [Op.and]: [
+            { data_inicio: { [Op.lte]: hoje } },
+            { data_fim: { [Op.gte]: hoje } }
+          ]
+        }
+      ];
 
       if (usuario.tipo_usuario !== "ADMIN") {
         where.id_usuario = usuario.id;
@@ -158,9 +163,30 @@ module.exports = {
 
       if (reserva.id_item) {
         const { quantidade_devolvida } = req.body;
+        const devolvida = parseInt(quantidade_devolvida, 10) || 0;
         const item = await Item.findByPk(reserva.id_item);
-        item.quantidade_total += parseInt(quantidade_devolvida, 10);
-        await item.save();
+        if (item) {
+          // Repor estoque
+          item.quantidade_total += devolvida;
+          await item.save();
+        }
+
+        // Atualizar/Remover registro na tabela de junção ItensReserva
+        try {
+          const ir = await ItensReserva.findOne({ where: { id_reserva: reserva.id, id_item: reserva.id_item } });
+          if (ir) {
+            // Se devolveu toda a quantidade ou mais, remover o registro
+            if (devolvida >= ir.quantidade_reservada) {
+              await ir.destroy();
+            } else if (devolvida > 0) {
+              // Devolução parcial: diminuir a quantidade_reservada
+              ir.quantidade_reservada = ir.quantidade_reservada - devolvida;
+              await ir.save();
+            }
+          }
+        } catch (e) {
+          console.warn('Erro ao atualizar ItensReserva na confirmação:', e.message);
+        }
       }
 
       if (reserva.id_sala) {
@@ -211,7 +237,8 @@ module.exports = {
       const qtd = parseInt(quantidade, 10);
       if (qtd > item.quantidade_total) return res.redirect("/home");
 
-      await Reserva.create({
+      // Criar reserva normalmente (mantendo compatibilidade com id_item)
+      const reserva = await Reserva.create({
         id_item: item.id,
         id_usuario: usuario.id,
         data_inicio,
@@ -224,6 +251,18 @@ module.exports = {
         status: "CONFIRMADA"
       });
 
+      // Registrar na tabela de junção ItensReserva para habilitar N:N
+      try {
+        await ItensReserva.create({
+          id_reserva: reserva.id,
+          id_item: item.id,
+          quantidade_reservada: qtd
+        });
+      } catch (e) {
+        console.warn('Não foi possível criar registro em ItensReserva:', e.message);
+      }
+
+      // Atualiza estoque do item
       item.quantidade_total -= qtd;
       await item.save();
 
@@ -321,6 +360,12 @@ module.exports = {
         if (item) {
           item.quantidade_total += reserva.quantidade;
           await item.save();
+          
+          try {
+            await ItensReserva.destroy({ where: { id_reserva: reserva.id, id_item: reserva.id_item } });
+          } catch (e) {
+            console.warn('Falha ao remover ItensReserva na deleção de reserva:', e.message);
+          }
         }
       }
 

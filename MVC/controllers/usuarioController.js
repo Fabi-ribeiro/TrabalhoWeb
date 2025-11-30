@@ -29,7 +29,14 @@ module.exports = {
         });
       }
 
-      req.session.usuario = usuario;
+      // Não armazenar o objeto Sequelize inteiro (contém hash de senha). Guardar apenas campos necessários na sessão para segurança.
+      req.session.usuario = {
+        id: usuario.id,
+        nome: usuario.nome,
+        email: usuario.email,
+        tipo_usuario: usuario.tipo_usuario,
+        registro: usuario.registro
+      };
       res.redirect('/home');
     } catch (error) {
       console.error('Erro no login:', error);
@@ -60,7 +67,14 @@ module.exports = {
       );
 
       const atualizado = await Usuario.findByPk(usuario.id);
-      req.session.usuario = atualizado;
+      // Atualizar somente os campos públicos na sessão
+      req.session.usuario = {
+        id: atualizado.id,
+        nome: atualizado.nome,
+        email: atualizado.email,
+        tipo_usuario: atualizado.tipo_usuario,
+        registro: atualizado.registro
+      };
 
       res.redirect('/usuarios/perfil'); 
     } catch (error) {

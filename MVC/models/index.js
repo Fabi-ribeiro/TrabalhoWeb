@@ -35,13 +35,24 @@ Historico.belongsTo(Reserva, { foreignKey: 'id_reserva' });
 
 Usuario.hasMany(Historico, { foreignKey: 'id_usuario_actor' });
 Historico.belongsTo(Usuario, { foreignKey: 'id_usuario_actor' });
-module.exports = {
-  Usuario,
-  Sala,
-  Item,
-  Reserva,
-  ItensReserva,
-  Historico,
-  Avaliacao,
-  sequelize,
-};
+
+// Associação N:N: Reserva <-> Item através da tabela ItensReserva
+Reserva.belongsToMany(Item, {
+  through: ItensReserva,
+  foreignKey: 'id_reserva',
+  otherKey: 'id_item',
+  as: 'itens'
+});
+
+Item.belongsToMany(Reserva, {
+  through: ItensReserva,
+  foreignKey: 'id_item',
+  otherKey: 'id_reserva',
+  as: 'reservas'
+});
+
+// Associação direta para a tabela de junção (útil para buscas diretas)
+ItensReserva.belongsTo(Reserva, { foreignKey: 'id_reserva' });
+ItensReserva.belongsTo(Item, { foreignKey: 'id_item' });
+
+module.exports = { Usuario, Sala, Item, Reserva, ItensReserva, Historico, Avaliacao, sequelize};

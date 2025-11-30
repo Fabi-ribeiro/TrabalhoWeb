@@ -10,7 +10,9 @@ module.exports = {
       const usuario = req.session.usuario;
       const termo = req.query.q ? req.query.q.toLowerCase() : '';
       const filtro = (req.query.filtro || 'todos').toLowerCase();
-      const hoje = new Date().toISOString().split('T')[0];
+  // Calcular data 'hoje' no fuso local para evitar deslocamentos
+  const tzOffset = new Date().getTimezoneOffset() * 60000;
+  const hoje = new Date(Date.now() - tzOffset).toISOString().split('T')[0];
 
       // Buscar salas + reservas + avaliações
       let salas = await Sala.findAll({

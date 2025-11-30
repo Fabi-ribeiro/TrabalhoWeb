@@ -38,6 +38,12 @@ app.engine('handlebars', engine({
     or: (a, b) => a || b,
     formatDate: (date) => {
       if (!date) return '';
+      // Se for uma string apenas com YYYY-MM-DD, criar Date no fuso local
+      if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        const [y, m, d] = date.split('-').map(Number);
+        return new Date(y, m - 1, d).toLocaleDateString('pt-BR');
+      }
+      // Caso contrário (Date object ou ISO datetime), usar o comportamento padrão
       return new Date(date).toLocaleDateString('pt-BR');
     },
     formatTime: (time) => {
@@ -93,9 +99,7 @@ sequelize
   .then(() => {
     console.log('✅ Banco sincronizado com sucesso!');
 
-    // Função para tentar iniciar o servidor em uma porta, com retries em caso
-    // de EADDRINUSE (porta em uso). Isso evita falha imediata quando a porta
-    // padrão já estiver ocupada durante o desenvolvimento.
+    // Função para tentar iniciar o servidor em uma porta, com retries em caso de porta em uso.
     const tryStartServer = (port, attemptsLeft) => {
       const server = app.listen(port, () => {
         console.log(`🚀 Servidor rodando: http://localhost:${port}`);
