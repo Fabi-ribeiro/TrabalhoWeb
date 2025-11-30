@@ -144,12 +144,34 @@ body {
   font-family: 'Inter', sans-serif;
   z-index: 1000;
 }
-
 .footer-inner {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0;
+}
+
+/* Garante que o footer tenha altura controlada e a imagem não preencha a página */
+.site-footer {
+  height: var(--footer-height);
+  box-sizing: border-box;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+}
+
+/* Ajuste da imagem do rodapé */
+.footer-logo {
+  max-height: calc(var(--footer-height) - 8px); /* deixa um pequeno espaçamento */
+  max-width: 180px; /* evita imagens muito largas */
+  height: auto;
+  width: auto;
+  object-fit: contain; /* mantém proporção */
+  display: block;
 }
 
 /* Navegação inferior dentro do footer */
