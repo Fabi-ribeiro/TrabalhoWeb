@@ -1,0 +1,34 @@
+<main class="content container">
+  <div class="header-actions">
+    <div class="header-left">
+      <h2 class="page-title">Mobiliário Disponível</h2>
+      <p class="description">Encontre e reserve o mobiliário que você precisa</p>
+    </div>
+
+    {{#if isAdmin}}
+      <a href="/itens/create" class="btn-add">
+        <i class="fa-solid fa-plus"></i> Novo Item
+      </a>
+    {{/if}}
+  </div>
+
+  <div class="search-area">
+    <input type="text" class="search" placeholder="Buscar mobiliário ou local...">
+    <div class="filters">
+      <button class="active">Todas</button>
+      <button>Cadeiras</button>
+      <button>Mesas</button>
+      <button>Armários</button>
+    </div>
+  </div>
+
+  <p class="count">{{itens.length}} itens encontrados</p>
+
+  {{#if itens.length}}
+    {{#each itens}}
+      {{> item isAdmin=../isAdmin }}
+    {{/each}}
+  {{else}}
+    <p class="empty">Nenhum item cadastrado no momento.</p>
+  {{/if}}
+</main>

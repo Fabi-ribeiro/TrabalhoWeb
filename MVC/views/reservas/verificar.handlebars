@@ -1,0 +1,72 @@
+<div class="form-wrapper reserva-form">
+  <div class="reserva-card form-card">
+    <div class="reserva-header">
+      <div>
+        <div class="reserva-nome">
+          {{#if reserva.Sala}}Sala: {{reserva.Sala.nome_sala}}{{/if}}
+          {{#if reserva.Item}}Item: {{reserva.Item.nome_item}}{{/if}}
+        </div>
+        <div class="finalidade-text">{{reserva.finalidade}}</div>
+      </div>
+      <div>
+        <span class="status-badge {{reserva.status}}">{{reserva.status}}</span>
+      </div>
+    </div>
+
+    <div class="reserva-body">
+      <ul class="reserva-info-list">
+        <li>
+          <i class="fa-solid fa-hashtag info-icon" aria-hidden="true"></i>
+          <strong>ID:</strong>
+          <span class="value">{{reserva.id}}</span>
+        </li>
+        <li>
+          <i class="fa-solid fa-calendar-days info-icon" aria-hidden="true"></i>
+          <strong>Período:</strong>
+          <span class="value">{{formatDate reserva.data_inicio}} - {{formatDate reserva.data_fim}}</span>
+        </li>
+        <li>
+          <i class="fa-regular fa-clock info-icon" aria-hidden="true"></i>
+          <strong>Horário:</strong>
+          <span class="value">{{formatTime reserva.hora_inicio}} - {{formatTime reserva.hora_fim}}</span>
+        </li>
+        {{#if reserva.quantidade}}
+          <li>
+            <i class="fa-solid fa-boxes info-icon" aria-hidden="true"></i>
+            <strong>Quantidade solicitada:</strong>
+            <span class="value">{{reserva.quantidade}}</span>
+          </li>
+        {{/if}}
+        {{#if reserva.observacoes}}
+          <li>
+            <i class="fa-solid fa-note-sticky info-icon" aria-hidden="true"></i>
+            <strong>Observações:</strong>
+            <span class="value">{{reserva.observacoes}}</span>
+          </li>
+        {{/if}}
+      </ul>
+    </div>
+
+  <form action="/reservas/verificar/{{reserva.id}}" method="POST">
+      {{#if reserva.Item}}
+        <div style="margin-bottom:0.6rem;">
+          <label class="label">Quantidade devolvida</label>
+          <input class="input" type="number" name="quantidade_devolvida" max="{{reserva.quantidade}}" min="0" required>
+        </div>
+      {{/if}}
+
+      {{#if reserva.Sala}}
+        <div style="margin-bottom:0.6rem;">
+          <label>
+            <input type="checkbox" name="sala_liberada"> Sala desocupada
+          </label>
+        </div>
+      {{/if}}
+
+      <div class="form-actions">
+        <a class="btn-cancel" href="/reservas/pendentes">Voltar</a>
+        <button class="btn-confirm" type="submit">Confirmar</button>
+      </div>
+    </form>
+  </div>
+</div>

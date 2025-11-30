@@ -1,0 +1,40 @@
+<div class="item-card">
+  <div class="image-container">
+    <img src="{{imagem}}" alt="{{nome_item}}">
+  </div>
+
+  <div class="info">
+    <h3 class="item-name">
+      <i class="fa-solid fa-chair"></i> {{nome_item}}
+    </h3>
+    <p class="category">{{categoria}}</p>
+
+    <div class="details">
+      <span><i class="fa-solid fa-location-dot"></i> {{local}}</span>
+      <span><i class="fa-solid fa-box"></i> {{quantidade_total}}</span>
+
+      {{#if avaliacao}}
+        <span><i class="fa-solid fa-star" style="color: #f1c40f;"></i> {{avaliacao}}</span>
+      {{else}}
+        <span><i class="fa-regular fa-star"></i> Sem avaliações</span>
+      {{/if}}
+    </div>
+
+    <div class="actions">
+    <a href="/reservas/item/{{id}}{{#if reservaId}}?reserva={{reservaId}}{{/if}}" class="reserve-btn">
+      <i class="fa-solid fa-calendar-check"></i> Reservar
+    </a>
+
+      {{#if isAdmin}}
+        <a href="/itens/edit/{{id}}" class="btn-edit">
+          <i class="fa-solid fa-pen-to-square"></i> Editar
+        </a>
+        <form action="/itens/delete/{{id}}" method="POST" class="inline-form">
+          <button type="submit" class="btn-delete">
+            <i class="fa-solid fa-trash"></i> Excluir
+          </button>
+        </form>
+      {{/if}}
+    </div>
+  </div>
+</div>

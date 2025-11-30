@@ -1,0 +1,182 @@
+<main class="content container">
+  <div class="header-actions">
+    <h2 class="page-title">Recursos Disponíveis para Reserva</h2>
+
+    {{#if isAdmin}}
+    <div class="admin-actions">
+      <a href="/salas/create" class="btn-add">
+        <i class="fa-solid fa-plus"></i> Nova Sala
+      </a>
+      <a href="/itens/create" class="btn-add">
+        <i class="fa-solid fa-plus"></i> Novo Item
+      </a>
+    </div>
+    {{/if}}
+  </div>
+
+  <p class="description">Visualize salas e mobiliários disponíveis e realize reservas de forma simples.</p>
+
+  <form method="GET" action="/home">
+    <input type="text" class="search" name="q" placeholder="Buscar sala ou item..." value="{{q}}">
+  </form>
+
+  <div class="filters-wrapper">
+    <div class="filters">
+      <a href="/home?filtro=todos&q={{q}}" class="filter-btn {{#ifEquals filtro 'todos'}}active{{/ifEquals}}">
+        Todos
+      </a>
+      <a href="/home?filtro=salas&q={{q}}" class="filter-btn {{#ifEquals filtro 'salas'}}active{{/ifEquals}}">
+        Salas
+      </a>
+      <a href="/home?filtro=itens&q={{q}}" class="filter-btn {{#ifEquals filtro 'itens'}}active{{/ifEquals}}">
+        Itens
+      </a>
+    </div>
+
+    {{#if isAdmin}}
+    <div class="admin-actions-right">
+      <a href="/reservas/pendentes" class="btn-pendentes">
+        <i class="fa-solid fa-clock-rotate-left"></i> Reservas Pendentes
+      </a>
+    </div>
+    {{/if}}
+  </div>
+
+  <p class="count">{{recursos.length}} recursos encontrados</p>
+
+  <div class="items-grid">
+    {{#each recursos}}
+    <div class="item-card 
+        {{#if nome_sala}}
+            {{#if indisponivel_sala}}card-disabled{{/if}}
+    {{else}}
+      {{#if indisponivel_item}}card-disabled{{/if}}
+        {{/if}}
+    ">
+
+      {{!-- TAG INDISPONÍVEL SALA --}}
+  {{#if nome_sala}}
+  {{#if pendente_sala}}
+  <span class="tag-pendente">Pendente</span>
+  {{else if indisponivel_sala}}
+  <span class="tag-indisponivel">Indisponível</span>
+  {{/if}}
+  {{/if}}
+
+  {{!-- TAG INDISPONÍVEL ITEM --}}
+  {{#if nome_item}}
+  {{#if pendente_item}}
+  <span class="tag-pendente">Pendente</span>
+  {{else if indisponivel_item}}
+  <span class="tag-indisponivel">Indisponível</span>
+  {{/if}}
+  {{/if}}
+
+      <div class="image-container">
+        <img src="{{imagem}}" alt="{{#if nome_sala}}{{nome_sala}}{{else}}{{nome_item}}{{/if}}">
+      </div>
+
+      <div class="info">
+        <h3 class="item-name">{{#if nome_sala}}{{nome_sala}}{{else}}{{nome_item}}{{/if}}</h3>
+        <p class="category">{{tipo}}</p>
+
+        <div class="details">
+
+          {{#if localizacao}}
+          <span>
+            <i class="fa-solid fa-location-dot"></i> {{localizacao}}
+          </span>
+          {{else if local}}
+          <span>
+            <i class="fa-solid fa-location-dot"></i> {{local}}
+          </span>
+          {{/if}}
+
+          {{#if capacidade}}
+          <span>
+            <i class="fa-solid fa-users"></i> {{capacidade}} pessoas
+          </span>
+          {{else if quantidade_total}}
+          <span>
+            <i class="fa-solid fa-box"></i> {{quantidade_total}} unidades
+          </span>
+          {{/if}}
+
+          {{!-- ⭐ Avaliação ⭐ --}}
+          <span class="rating">
+            <i class="fa-solid fa-star"></i>
+            {{#if avaliacao_media}}
+              {{avaliacao_media}} ({{avaliacao_qtd}} avaliações)
+            {{else}}
+              Nenhuma avaliação
+            {{/if}}
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="actions">
+        {{!-- SALA --}}
+        {{#if nome_sala}}
+        {{#if indisponivel_sala}}
+        <button class="reserve-btn disabled" disabled>
+          <i class="fa-solid fa-ban"></i> Indisponível
+        </button>
+        {{else}}
+        <a href="/reservas/sala/{{id}}" class="reserve-btn">
+          <i class="fa-solid fa-calendar-check"></i> Reservar Sala
+        </a>
+        {{/if}}
+
+        {{!-- ITEM --}}
+        {{else}}
+        {{#if indisponivel_item}}
+        <button class="reserve-btn disabled" disabled>
+          <i class="fa-solid fa-ban"></i> Indisponível
+        </button>
+        {{else}}
+        <a href="/itens/reserva/{{id}}" class="reserve-btn">
+          <i class="fa-solid fa-calendar-check"></i> Reservar Item
+        </a>
+        {{/if}}
+        {{/if}}
+
+        {{!-- ADMIN --}}
+        {{#if ../isAdmin}}
+        {{#if nome_sala}}
+        <a href="/salas/edit/{{id}}" class="btn-edit">
+          <i class="fa-solid fa-pen-to-square"></i> Editar
+        </a>
+        <form action="/salas/delete/{{id}}" method="POST" class="inline-form"
+          onsubmit="return confirmarExclusao(event, '{{nome_sala}}')">
+          <button type="submit" class="btn-delete">
+            <i class="fa-solid fa-trash"></i> Excluir
+          </button>
+        </form>
+        {{else}}
+        <a href="/itens/edit/{{id}}" class="btn-edit">
+          <i class="fa-solid fa-pen-to-square"></i> Editar
+        </a>
+        <form action="/itens/delete/{{id}}" method="POST" class="inline-form"
+          onsubmit="return confirmarExclusao(event, '{{nome_item}}')">
+          <button type="submit" class="btn-delete">
+            <i class="fa-solid fa-trash"></i> Excluir
+          </button>
+        </form>
+        {{/if}}
+        {{/if}}
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+  <script>
+    function confirmarExclusao(event, nome) {
+      event.preventDefault();
+      const confirmado = confirm(`⚠️ Deseja realmente excluir "${nome}"? Esta ação não pode ser desfeita.`);
+      if (confirmado) event.target.submit();
+      return false;
+    }
+  </script>
+</main>

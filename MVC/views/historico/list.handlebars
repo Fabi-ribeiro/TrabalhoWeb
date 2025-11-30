@@ -1,0 +1,63 @@
+<div class="container">
+  <h2>Histórico de Reservas</h2>
+
+  {{#if reservas.length}}
+    <div class="reservas-grid">
+      {{#each reservas}}
+        <div class="reserva-card">
+
+          <h3>
+            {{#if Sala}}
+              <i class="fa-solid fa-door-open"></i> {{Sala.nome_sala}}
+            {{else if Item}}
+              <i class="fa-solid fa-box"></i> {{Item.nome_item}}
+            {{/if}}
+          </h3>
+
+          {{#if data_fim}}
+            <p class="reserva-datas"><i class="fa-solid fa-calendar-days"></i>
+              <strong>Datas:</strong> <span class="reserva-datas-value">{{formatDate data_inicio}} até {{formatDate data_fim}}</span>
+            </p>
+          {{else}}
+            <p class="reserva-datas"><i class="fa-solid fa-calendar-day"></i>
+              <strong>Data:</strong> <span class="reserva-datas-value">{{formatDate data_reserva}}</span>
+            </p>
+          {{/if}}
+
+          <p><i class="fa-regular fa-clock"></i>
+            <strong>Início:</strong> {{formatTime hora_inicio}}
+          </p>
+
+          <p><i class="fa-regular fa-clock"></i>
+            <strong>Fim:</strong> {{formatTime hora_fim}}
+          </p>
+
+          <p><i class="fa-solid fa-circle-info"></i>
+            <strong>Status:</strong> {{status}}
+          </p>
+
+          {{#if finalidade}}
+          <p><i class="fa-solid fa-bullseye"></i>
+            <strong>Finalidade:</strong> {{finalidade}}
+          </p>
+          {{/if}}
+
+          {{#if observacoes}}
+          <p><i class="fa-solid fa-note-sticky"></i>
+            <strong>Observações:</strong> {{observacoes}}
+          </p>
+          {{/if}}
+
+          {{#if podeAvaliar}}
+            <a href="/avaliacoes/create?reserva_id={{id}}" class="btn-avaliar">
+              <i class="fa-solid fa-star"></i> Avaliar
+            </a>
+          {{/if}}
+
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <p>Nenhuma reserva no histórico.</p>
+  {{/if}}
+</div>

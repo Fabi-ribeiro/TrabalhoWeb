@@ -1,0 +1,83 @@
+<main class="content container">
+  <div class="header-actions">
+    <h2 class="page-title">Salas Disponíveis</h2>
+
+    {{#if isAdmin}}
+      <a href="/salas/create" class="btn-add">
+        <i class="fa-solid fa-plus"></i> Nova Sala
+      </a>
+    {{/if}}
+  </div>
+
+  <p class="description">Confira as salas disponíveis para reserva</p>
+
+  <input type="text" class="search" placeholder="Buscar por nome...">
+
+  <div class="filters">
+    <button class="active">Todas</button>
+    <button>Laboratórios</button>
+    <button>Salas de Aula</button>
+    <button>Auditórios</button>
+  </div>
+
+  <p class="count">{{salas.length}} salas encontradas</p>
+
+  <div class="items-grid">
+    {{#each salas}}
+      <div class="item-card">
+
+        <div class="image-container">
+          <img src="{{imagem}}" alt="{{nome_sala}}">
+        </div>
+
+        <div class="info">
+          <h3 class="item-name">{{nome_sala}}</h3>
+
+          {{!-- STATUS DA SALA --}}
+          {{#if is_reservada}}
+            <span class="badge badge-red">Indisponível</span>
+          {{else}}
+            <span class="badge badge-green">Disponível</span>
+          {{/if}}
+
+          {{#if localizacao}}
+            <p class="category">{{localizacao}}</p>
+          {{/if}}
+
+          <div class="details">
+            {{#if capacidade}}
+              <span>👥 Capacidade: {{capacidade}}</span>
+            {{/if}}
+          </div>
+
+          <div class="actions">
+
+            {{!-- BOTÃO COM BLOQUEIO SE ESTIVER RESERVADA --}}
+            {{#if is_reservada}}
+              <button class="reserve-btn disabled" disabled>
+                <i class="fa-solid fa-ban"></i> Indisponível
+              </button>
+            {{else}}
+              <a href="/reservas/sala/{{id}}{{#if reservaId}}?reserva={{reservaId}}{{/if}}" class="reserve-btn">
+                <i class="fa-solid fa-calendar-check"></i> Reservar
+              </a>
+            {{/if}}
+
+            {{#if ../isAdmin}}
+              <a href="/salas/edit/{{id}}" class="btn-edit">
+                <i class="fa-solid fa-pen-to-square"></i> Editar
+              </a>
+
+              <form action="/salas/delete/{{id}}" method="POST" class="inline-form">
+                <button type="submit" class="btn-delete">
+                  <i class="fa-solid fa-trash"></i> Excluir
+                </button>
+              </form>
+            {{/if}}
+
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</main>

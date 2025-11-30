@@ -1,0 +1,116 @@
+<main class="perfil-container">
+
+  <h2 class="page-title">Perfil e Configurações</h2>
+  <p class="page-subtitle">Gerencie suas informações pessoais</p>
+
+  <!-- Card do topo com avatar -->
+  <section class="perfil-card">
+    <div class="perfil-avatar">
+
+      <div class="avatar-circle">
+        {{#if usuario.foto}}
+        <img src="{{usuario.foto}}" class="avatar-img">
+        {{else}}
+        <span class="avatar-text">
+          {{usuario.nome.[0]}}{{usuario.nome.[1]}}
+        </span>
+        {{/if}}
+      </div>
+
+      <div class="perfil-info">
+        <h3>{{usuario.nome}}</h3>
+        <p>{{usuario.departamento}}</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Informações pessoais -->
+  <section class="card">
+
+    <h3 class="section-title">
+      <i class="fa-solid fa-user"></i> Informações Pessoais
+    </h3>
+
+    <form action="/perfil/update" method="POST" class="form-grid">
+
+      <div class="form-group">
+        <label>Nome Completo</label>
+        <input type="text" name="nome" value="{{usuario.nome}}">
+      </div>
+
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="text" name="email" value="{{usuario.email}}">
+      </div>
+
+      <div class="form-group">
+        <label>RA / Registro</label>
+        <input type="text" name="registro" value="{{usuario.registro}}">
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-primary">Salvar Alterações</button>
+      </div>
+
+    </form>
+
+  </section>
+
+  <!-- Alterar Senha -->
+  <section class="card">
+
+    <h3 class="section-title">
+      <i class="fa-solid fa-lock"></i> Alterar Senha
+    </h3>
+
+    {{#if erroSenha}}
+    <p class="alert alert-error">{{erroSenha}}</p>
+    {{/if}}
+
+    {{#if sucessoSenha}}
+    <p class="alert alert-success">{{sucessoSenha}}</p>
+    {{/if}}
+
+    <form action="/perfil/updateSenha" method="POST" class="form-grid">
+
+      <div class="form-group">
+        <label>Senha Atual</label>
+        <input type="password" name="senha_atual" required>
+      </div>
+
+      <div class="form-group">
+        <label>Nova Senha</label>
+        <input type="password" name="nova_senha" required>
+      </div>
+
+      <div class="form-group">
+        <label>Confirmar Nova Senha</label>
+        <input type="password" name="confirmar_senha" required>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-primary">Alterar Senha</button>
+      </div>
+
+    </form>
+
+  </section>
+
+  <!-- Excluir Conta -->
+  <section class="perfil-section excluir-section">
+    <h3 class="section-title">
+      <i class="fa-solid fa-user-xmark"></i> Excluir Conta
+    </h3>
+
+    <p class="excluir-texto">
+      Esta ação é permanente. Todos os seus dados serão removidos.
+    </p>
+
+    <form action="/perfil/excluirConta" method="POST"
+      onsubmit="return confirm('Tem certeza que deseja excluir sua conta de forma permanente?');">
+      <button class="btn-excluir-conta">Excluir Minha Conta</button>
+    </form>
+  </section>
+
+</main>

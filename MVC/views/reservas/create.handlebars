@@ -1,0 +1,135 @@
+<main class="container reserva-form">
+  <div class="form-card">
+
+    <h2 class="form-title">
+      {{#if item}}
+      Reservar: {{item.nome_item}}
+      {{else if sala}}
+      Reservar: {{sala.nome_sala}}
+      {{else}}
+      Nova Reserva
+      {{/if}}
+    </h2>
+
+    <form id="reservaForm" action="
+      {{#if item}}
+        /reservas/item
+      {{else if sala}}
+        /reservas/sala/{{sala.id}}
+      {{else}}
+        /reservas/create
+      {{/if}}
+    " method="POST">
+
+      {{!-- ITEM --}}
+      {{#if item}}
+        <input type="hidden" name="item_id" value="{{item.id}}">
+        {{#if reservaId}}
+          <input type="hidden" name="reserva_origem_id" value="{{reservaId}}">
+        {{/if}}
+      <div class="form-group">
+        <label><i class="fa-solid fa-layer-group"></i> Quantidade</label>
+        <input type="number" name="quantidade" min="1" max="{{item.quantidade_total}}" value="1" required />
+        <small class="text-muted">
+          Disponível: {{item.quantidade_total}} unidade(s)
+        </small>
+      </div>
+      {{/if}}
+
+      {{!-- SALA --}}
+      {{#if sala}}
+      <input type="hidden" name="sala_id" value="{{sala.id}}">
+      {{#if reservaId}}
+        <input type="hidden" name="reserva_origem_id" value="{{reservaId}}">
+      {{/if}}
+      {{/if}}
+
+      {{!-- USUÁRIO --}}
+      <div class="form-group">
+        <label><i class="fa-solid fa-user"></i> Nome Completo</label>
+        <input type="text" value="{{usuario.nome}}" disabled />
+      </div>
+
+      <div class="form-group">
+        <label><i class="fa-solid fa-envelope"></i> E-mail</label>
+        <input type="email" value="{{usuario.email}}" disabled />
+      </div>
+
+      {{!-- DATAS --}}
+      <div class="form-row">
+        <div class="form-group">
+          <label><i class="fa-solid fa-calendar"></i> Data Início</label>
+          <input type="date" id="data_inicio" name="data_inicio" required>
+        </div>
+
+        <div class="form-group">
+          <label>Data Fim</label>
+          <input type="date" id="data_fim" name="data_fim" required>
+        </div>
+      </div>
+
+      {{!-- HORÁRIOS --}}
+      <div class="form-row">
+        <div class="form-group">
+          <label><i class="fa-solid fa-clock"></i> Horário Início</label>
+          <input type="time" id="hora_inicio" name="hora_inicio" min="07:30" max="23:00" required />
+        </div>
+
+        <div class="form-group">
+          <label>Horário Fim</label>
+          <input type="time" id="hora_fim" name="hora_fim" min="07:30" max="23:00" required />
+        </div>
+      </div>
+
+      {{!-- FINALIDADE --}}
+      <div class="form-group">
+        <label><i class="fa-regular fa-comment"></i> Finalidade</label>
+        <input type="text" id="finalidade" name="finalidade" required>
+      </div>
+
+      <div class="form-group">
+        <label>Observações</label>
+        <textarea name="observacoes"></textarea>
+      </div>
+
+      {{!-- AÇÕES --}}
+      <div class="form-actions">
+        <button type="submit" class="btn-confirm">Confirmar Reserva</button>
+        <a href="/home" class="btn-cancel">Cancelar</a>
+      </div>
+
+    </form>
+  </div>
+  <script>
+    document.getElementById('reservaForm').addEventListener('submit', function (e) {
+      const dataInicio = document.getElementById('data_inicio').value;
+      const dataFim = document.getElementById('data_fim').value;
+      const horaInicio = document.getElementById('hora_inicio').value;
+      const horaFim = document.getElementById('hora_fim').value;
+
+      const minTime = "07:30";
+      const maxTime = "23:00";
+
+      // Sempre validar limite mesmo em múltiplos dias
+      if (horaInicio < minTime || horaFim > maxTime) {
+        e.preventDefault();
+        alert('⚠️ Horário permitido é entre 07:30 e 23:00!');
+        return;
+      }
+
+      // Validação adicional quando inicia e termina no mesmo dia
+      if (dataInicio === dataFim) {
+        if (horaInicio >= horaFim) {
+          e.preventDefault();
+          alert('⚠️ Horário de início deve ser menor que o horário de fim!');
+          return;
+        }
+      }
+
+      // Confirmar envio
+      if (!confirm('Deseja realmente confirmar esta reserva?')) {
+        e.preventDefault();
+      }
+    });
+  </script>
+</main>

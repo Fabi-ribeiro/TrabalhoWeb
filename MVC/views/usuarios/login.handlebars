@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reservas UTFPR - Login</title>
+  <link rel="stylesheet" href="/css/login.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <div class="container">
+    <div class="icon-top">
+      <div class="icon-bg">
+        <i class="fa-regular fa-user"></i>
+      </div>
+    </div>
+
+    <h1 class="titulo">Reservas UTFPR</h1>
+    <p class="subtitulo">Entre na sua conta para acessar o sistema</p>
+
+    <div class="card">
+      <h2>Fazer Login</h2>
+      <form action="/login" method="POST">
+        <div class="form-group">
+          <label for="email"><i class="fa-regular fa-envelope"></i> E-mail</label>
+          <input type="email" id="email" name="email" placeholder="seu.email@utfpr.edu.br" required />
+        </div>
+
+        <div class="form-group">
+          <label for="senha"><i class="fa-solid fa-lock"></i> Senha</label>
+          <div class="input-senha">
+            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required />
+            <i class="fa-regular fa-eye"></i>
+          </div>
+        </div>
+
+        <a href="#" class="esqueceu-senha">Esqueceu sua senha?</a>
+
+        <button type="submit" class="btn-login">Entrar</button>
+      </form>
+    </div>
+
+    <p class="link-criar">
+      Não tem uma conta? <a href="/usuarios/create">Criar conta</a>
+    </p>
+  </div>
+
+
+</body>
+</html>

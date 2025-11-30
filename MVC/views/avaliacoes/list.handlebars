@@ -1,0 +1,33 @@
+<main class="content container">
+  <div class="header-actions">
+    <h2 class="page-title"><i class="fa-solid fa-star"></i> Avaliações</h2>
+
+    <a class="btn-add" href="/avaliacoes/create">
+      <i class="fa-solid fa-plus"></i> Nova Avaliação
+    </a>
+  </div>
+
+  <p class="description">Lista de avaliações realizadas pelos usuários</p>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Reserva</th>
+        <th>Usuário</th>
+        <th>Nota</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each avaliacoes}}
+        <tr>
+          <td>{{id}}</td>
+          <td>#{{Reserva.id}}</td>
+          <td>{{Reserva.Usuario.nome}}</td>
+          <td>{{nota}} ⭐</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</main>

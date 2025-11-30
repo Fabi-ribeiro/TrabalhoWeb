@@ -1,0 +1,55 @@
+<main class="container create-item">
+  <div class="form-card">
+    <h2 class="page-title">
+      <i class="fa-solid fa-star"></i> Criar Avaliação
+    </h2>
+
+    <form action="/avaliacoes/create" method="POST">
+
+    <div class="form-group">
+      <label><i class="fa-solid fa-calendar-check"></i> Reserva</label>
+
+      {{#if selectedReserva}}
+        <div class="selected-reserva">
+          <strong>Reserva selecionada:</strong>
+          <div class="resumo-reserva">
+            {{#if selectedReserva.Sala}}
+              <i class="fa-solid fa-door-open"></i> {{selectedReserva.Sala.nome_sala}}
+            {{else if selectedReserva.Item}}
+              <i class="fa-solid fa-box"></i> {{selectedReserva.Item.nome_item}}
+            {{/if}}
+            — {{formatDate selectedReserva.data_reserva}}
+            {{#if selectedReserva.data_fim}} até {{formatDate selectedReserva.data_fim}}{{/if}}
+          </div>
+        </div>
+        <!-- Usa um campo hidden com a reserva selecionada -->
+        <input type="hidden" name="id_reserva" value="{{selectedReserva.id}}" />
+      {{else}}
+        <p>Reserva não selecionada. A avaliação só pode ser criada a partir do histórico.</p>
+        <a href="/historico" class="btn-cancel" style="display:inline-block;margin-top:10px;"><i class="fa-solid fa-arrow-left"></i> Voltar ao histórico</a>
+      {{/if}}
+    </div>
+
+    <div class="form-group">
+      <label><i class="fa-solid fa-star"></i> Nota</label>
+      <select name="nota" required>
+        <option value="1">⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="5" selected>⭐⭐⭐⭐⭐</option>
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-save">
+        <i class="fa-solid fa-star"></i> Salvar Avaliação
+      </button>
+      <a href="/historico" class="btn-cancel">
+        <i class="fa-solid fa-xmark"></i> Cancelar
+      </a>
+    </div>
+
+    </form>
+  </div>
+</main>

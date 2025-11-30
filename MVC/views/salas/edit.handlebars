@@ -1,0 +1,85 @@
+<main class="container sala-form">
+  <div class="form-card">
+    <h2 class="form-title">
+      <i class="fa-solid fa-pen-to-square"></i> Editar Sala
+    </h2>
+
+    <form action="/salas/update/{{sala.id}}" method="POST">
+      <div class="form-group">
+        <label><i class="fa-solid fa-door-open"></i> Nome da Sala</label>
+        <input
+          type="text"
+          name="nome_sala"
+          value="{{sala.nome_sala}}"
+          placeholder="Digite o nome da sala"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label><i class="fa-solid fa-location-dot"></i> Localização</label>
+        <input
+          type="text"
+          name="localizacao"
+          value="{{sala.localizacao}}"
+          placeholder="Informe o local da sala"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label><i class="fa-solid fa-users"></i> Capacidade</label>
+        <input
+          type="number"
+          name="capacidade"
+          value="{{sala.capacidade}}"
+          min="1"
+          placeholder="Número máximo de pessoas"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label><i class="fa-solid fa-image"></i> URL da Imagem</label>
+        <input
+          type="text"
+          name="imagem"
+          value="{{sala.imagem}}"
+          placeholder="Cole aqui o link da imagem"
+        >
+      </div>
+
+      {{#if sala.imagem}}
+        <div class="form-group">
+          <label>Pré-visualização:</label>
+          <div class="image-preview">
+            <img src="{{sala.imagem}}" alt="Imagem da sala" />
+          </div>
+        </div>
+      {{/if}}
+
+      <div class="form-actions">
+        <button type="submit" class="btn-confirm">
+          <i class="fa-solid fa-floppy-disk"></i> Salvar Alterações
+        </button>
+        <a href="/home" class="btn-cancel">
+          <i class="fa-solid fa-xmark"></i> Cancelar
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Validação simples p/ teste-->
+  <script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+      const nome = document.querySelector('input[name="nome_sala"]').value.trim();
+      const local = document.querySelector('input[name="localizacao"]').value.trim();
+      const capacidade = document.querySelector('input[name="capacidade"]').value.trim();
+
+      if (!nome || !local || !capacidade) {
+        e.preventDefault();
+        alert('⚠️ Preencha todos os campos obrigatórios antes de salvar.');
+      }
+    });
+  </script>
+</main>

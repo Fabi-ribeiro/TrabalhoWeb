@@ -1,0 +1,54 @@
+
+<div class="container">
+  <h2>Reservas Pendentes</h2>
+
+  {{#if reservas.length}}
+    <div class="reservas-grid">
+      {{#each reservas}}
+        <div class="reserva-card">
+
+          <h3>
+            {{#if Sala}}
+              <i class="fa-solid fa-door-closed"></i> {{Sala.nome_sala}}
+            {{else if Item}}
+              <i class="fa-solid fa-box"></i> {{Item.nome_item}}
+            {{/if}}
+          </h3>
+
+          <p class="reserva-datas"><i class="fa-solid fa-calendar-days"></i>
+            <strong>Período:</strong> <span class="reserva-datas-value">{{formatDate data_inicio}} até {{formatDate data_fim}}</span>
+          </p>
+
+          <p><i class="fa-regular fa-clock"></i>
+            <strong>Horário:</strong> {{formatTime hora_inicio}} - {{formatTime hora_fim}}
+          </p>
+
+          <p><i class="fa-solid fa-circle-info"></i>
+            <strong>Status:</strong> <span class="status-badge {{status}}">{{status}}</span>
+          </p>
+
+          {{#if finalidade}}
+          <p><i class="fa-solid fa-bullseye"></i>
+            <strong>Finalidade:</strong> {{finalidade}}
+          </p>
+          {{/if}}
+
+          {{#if observacoes}}
+          <p><i class="fa-solid fa-note-sticky"></i>
+            <strong>Observações:</strong> {{observacoes}}
+          </p>
+          {{/if}}
+
+          <div class="reserva-footer form-actions">
+            <a class="btn-confirm" href="/reservas/verificar/{{id}}">
+              <i class="fa-regular fa-circle-check"></i> Verificar
+            </a>
+          </div>
+
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <p>Nenhuma reserva pendente.</p>
+  {{/if}}
+</div>

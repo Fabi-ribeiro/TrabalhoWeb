@@ -1,0 +1,61 @@
+<div class="container">
+  <h2>Minhas Reservas</h2>
+
+  {{#if reservas.length}}
+    <div class="reservas-grid">
+      {{#each reservas}}
+        <div class="reserva-card">
+
+          <h3>
+            {{#if Sala}}
+              <i class="fa-solid fa-door-closed"></i> {{Sala.nome_sala}}
+            {{else if Item}}
+              <i class="fa-solid fa-box"></i> {{Item.nome_item}}
+            {{/if}}
+          </h3>
+
+          <p class="reserva-datas"><i class="fa-solid fa-calendar-days"></i>
+            <strong>Datas:</strong> <span class="reserva-datas-value">{{formatDate data_inicio}} até {{formatDate data_fim}}</span>
+          </p>
+
+          <p><i class="fa-regular fa-clock"></i>
+            <strong>Início:</strong> {{formatTime hora_inicio}}
+          </p>
+
+          <p><i class="fa-regular fa-clock"></i>
+            <strong>Fim:</strong> {{formatTime hora_fim}}
+          </p>
+
+          <p><i class="fa-solid fa-circle-info"></i>
+            <strong>Status:</strong> {{status}}
+          </p>
+
+          {{#if finalidade}}
+          <p><i class="fa-solid fa-bullseye"></i>
+            <strong>Finalidade:</strong> {{finalidade}}
+          </p>
+          {{/if}}
+
+          {{#if observacoes}}
+          <p><i class="fa-solid fa-note-sticky"></i>
+            <strong>Observações:</strong> {{observacoes}}
+          </p>
+          {{/if}}
+
+          {{#if (or (eq status "PENDENTE") (eq status "CONFIRMADA"))}}
+          <div class="reserva-footer form-actions">
+            <form action="/reservas/cancelar/{{id}}" method="POST" class="inline-form" onsubmit="return confirm('Deseja realmente cancelar esta reserva?');">
+              <button type="submit" class="btn-cancel">
+                <i class="fas fa-times"></i> Cancelar
+              </button>
+            </form>
+          </div>
+          {{/if}}
+
+        </div>
+      {{/each}}
+    </div>
+  {{else}}
+    <p>Nenhuma reserva encontrada.</p>
+  {{/if}}
+</div>

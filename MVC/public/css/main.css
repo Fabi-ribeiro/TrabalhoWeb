@@ -1,0 +1,481 @@
+/* Variáveis Globais */
+:root {
+  --header-height: 64px; /* altura fixa do header */
+  --footer-height: 60px; /* altura fixa do footer */
+}
+
+/* Estilo Base do Body */
+body {
+  font-family: 'Inter', sans-serif; /* fonte principal da página */
+  margin: 0;                        /* remove margin padrão */
+  background: #f5f5f5;              /* cor de fundo neutra */
+  padding-top: var(--header-height); /* evita sobreposição do header */
+  padding-bottom: var(--footer-height); /* evita sobreposição do footer */
+  color: #000;                       /* cor padrão do texto */
+}
+
+/* Grids de Itens */
+.items-grid,
+.grid-list {
+  display: grid;                           
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;                                
+}
+
+.admin-actions {
+  display: flex; /* container flexível para botões de ação */
+  gap: 10px;     /* espaço entre os botões */
+}
+
+/* Header Principal */
+.nav-top {
+  background-color: #FFD400;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* centraliza verticalmente */
+  padding: 0 20px; /* sem padding vertical para não inflar altura */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-height);
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+/* Bloco Direito */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Usuário */
+.nav-right .user {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #000;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Botão Logout */
+.btn-logout {
+  display: flex;
+  align-items: center; /* centraliza verticalmente */
+  justify-content: center; /* centraliza horizontalmente */
+  height: 40px; /* altura fixa menor que o header */
+  padding: 0 12px; /* padding horizontal */
+  font-size: 0.9rem;
+  background-color: #c82333;
+  border-radius: 6px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  box-sizing: border-box; /* padding não aumenta altura */
+}
+
+/* Ícone dentro do botão */
+.btn-logout i {
+  margin-right: 6px;
+  display: inline-block;
+}
+
+/* Hover */
+.btn-logout:hover {
+  background-color: #a71d2a;
+}
+
+.nav-top .btn-logout {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 40px !important;
+  padding: 0 12px !important;
+  width: auto !important;
+  margin-top: 0 !important;
+  background-color: #FFD400 !important;
+  color: #000000 !important;
+}
+
+/* Bloco Esquerdo */
+.nav-left {
+  display: flex;
+  align-items: center; /* centraliza verticalmente */
+  gap: 20px;  /* espaço entre os itens */
+}
+
+/* Cada item do nav-left */
+.nav-left .nav-item {
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  gap: 4px; 
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: #000;
+  transition: all 0.2s ease;
+}
+
+.nav-left .nav-item i {
+  font-size: 1rem;
+  opacity: 0.95;
+}
+
+.nav-left .nav-item.active,
+.nav-left .nav-item:hover {
+  color: #080808;
+}
+
+/* Conteúdo Principal */
+.content {
+  min-height: calc(100vh - var(--header-height) - var(--footer-height)); /* altura mínima para ocupar toda a tela sem encobrir header/footer */
+  padding: 16px; /* espaçamento interno */
+}
+
+/* Footer */
+.site-footer {
+  position: fixed; /* fixa na parte inferior */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border-top: 1px solid #ddd; 
+  font-family: 'Inter', sans-serif;
+  z-index: 1000;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+/* Navegação inferior dentro do footer */
+.bottom-nav {
+  display: flex;
+  justify-content: flex-start; /* alinhamento à esquerda */
+  gap: 30px; /* espaço entre itens */
+  width: 100%;
+  padding: 8px 20px;
+  box-sizing: border-box;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.nav-item i {
+  font-size: 1rem;
+  margin-bottom: 3px;
+  color: #000;
+  opacity: 0.95;
+}
+
+.nav-item.active,
+.nav-item:hover {
+  color: #FFD400;
+}
+
+/* Formulários */
+.form-wrapper,
+.edit-page,
+.reserva-form .form-card,
+.avaliacao-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Títulos e descrições */
+.form-header h2,
+.edit-page .page-title,
+.form-title,
+.avaliacao-card h2 {
+  color: #222;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.form-header p,
+.edit-page .description,
+.avaliacao-form label {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+/* Campos de formulário */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.4rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+  background-color: #f9f9f9;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #FFD400; /* destaque ao focar */
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical; 
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.form-row .form-group {
+  flex: 1; /* cada campo ocupa espaço igual */
+}
+
+/* Botões em formulários e cards */
+.form-actions,
+.buttons,
+.btn-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn-submit,
+.btn-save,
+.btn-confirm,
+.btn-avaliar,
+.btn-sistema {
+  background: #FFD400;
+  border: none;
+  color: #000;
+  font-weight: 600;
+  padding: 0.8rem 1.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.btn-submit:hover,
+.btn-save:hover,
+.btn-confirm:hover,
+.btn-avaliar:hover,
+.btn-sistema:hover {
+  background: #e6c000;
+  transform: translateY(-2px); /* leve efeito de elevação */
+}
+
+.btn-cancel {
+  flex: 1;
+  background: #f3f3f3;
+  color: #333;
+  text-align: center;
+  font-weight: 600;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-cancel:hover {
+  background: #e4e4e4;
+  transform: translateY(-2px);
+}
+
+/* Ajuste específico para formulários de Sala */
+.sala-form .form-actions {
+  justify-content: space-between; /* garante que os botões ocupem a linha */
+  gap: 0.75rem;
+}
+
+.sala-form .form-actions .btn-save,
+.sala-form .form-actions .btn-confirm,
+.sala-form .form-actions .btn-cancel {
+  flex: 1 1 0; /* cada botão cresce igualmente para dividir o espaço */
+}
+
+.sala-form .form-actions .btn-cancel {
+  margin-left: 0; /* remover margem especial para que ambos ocupem equalmente */
+}
+/* Ajuste específico para formulários genéricos: botões alinhados à direita */
+.form-card .form-actions {
+  justify-content: flex-end; /* botões alinhados à direita, em vez de espaçados */
+}
+
+.form-card .form-actions .btn-save,
+.form-card .form-actions .btn-confirm,
+.form-card .form-actions .btn-submit {
+  flex: 0 0 auto; /* não crescem */
+}
+
+.form-card .form-actions .btn-cancel {
+  flex: 0 0 auto; /* manter tamanho pelo padding */
+  margin-left: 0.5rem; /* pequeno espaçamento entre os botões */
+}
+
+/* Ajuste para formulário de Sala: botões dividem a linha igualmente */
+.sala-form .form-card .form-actions .btn-save,
+.sala-form .form-card .form-actions .btn-confirm,
+.sala-form .form-card .form-actions .btn-cancel {
+  flex: 1 1 0 !important;
+}
+
+.sala-form .form-card .form-actions {
+  justify-content: space-between !important;
+}
+
+/* Ajuste para formulário de cadastro de Item: botões dividem a linha igualmente */
+.create-item .form-card .form-actions {
+  justify-content: space-between !important;
+  gap: 0.75rem;
+}
+
+.create-item .form-card .form-actions .btn-save,
+.create-item .form-card .form-actions .btn-confirm,
+.create-item .form-card .form-actions .btn-cancel {
+  flex: 1 1 0 !important;
+}
+
+.create-item .form-card .form-actions .btn-cancel {
+  margin-left: 0; /* garantir espaçamento igual sem margem extra */
+}
+
+.create-item .form-card .form-actions .btn-save,
+.create-item .form-card .form-actions .btn-cancel,
+.sala-form .form-card .form-actions .btn-save,
+.sala-form .form-card .form-actions .btn-cancel {
+  font-size: 0.95rem; /* mesmo tamanho de fonte */
+  padding: 0.8rem 1.4rem; /* leve ajuste para manter proporção visual */
+}
+
+/* Caso existam ícones dentro dos botões, garantir que seu espaçamento fique consistente */
+.create-item .form-card .form-actions .btn-save i,
+.create-item .form-card .form-actions .btn-cancel i,
+.sala-form .form-card .form-actions .btn-save i,
+.sala-form .form-card .form-actions .btn-cancel i {
+  margin-right: 0.6rem;
+}
+
+/* Ajuste para formulário de Reserva: botões dividem a linha igualmente */
+.reserva-form .form-card .form-actions {
+  justify-content: space-between !important;
+  gap: 0.75rem;
+}
+
+.reserva-form .form-card .form-actions .btn-confirm,
+.reserva-form .form-card .form-actions .btn-save,
+.reserva-form .form-card .form-actions .btn-cancel {
+  flex: 1 1 0 !important;
+  font-size: 0.95rem !important;
+  padding: 0.8rem 1.4rem !important;
+}
+
+.reserva-form .form-card .form-actions .btn-cancel {
+  margin-left: 0 !important;
+}
+
+.reserva-form .form-card .form-actions .btn-confirm i,
+.reserva-form .form-card .form-actions .btn-cancel i {
+  margin-right: 0.6rem !important;
+}
+
+/* Ajuste para grid de reservas: botão cancelar centralizado e estilizado */
+.reservas-grid .reserva-card .reserva-footer.form-actions {
+  justify-content: center; 
+}
+
+.reservas-grid .reserva-card .reserva-footer.form-actions .btn-cancel {
+  background: #c82333; 
+  color: #fff; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem; /* espaço entre ícone e texto */
+  width: 100%;
+  min-width: 0;
+  padding: 0.95rem 1.8rem; /* aumentar padding para visual mais largo */
+  border-radius: 12px; /* arredondamento consistente */
+  font-weight: 700; /* botão destacado */
+  text-decoration: none;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.reservas-grid .reserva-card .reserva-footer.form-actions .btn-cancel:hover {
+  background: #a71d2a; /* hover vermelho escuro */
+  transform: translateY(-2px);
+}
+
+/* Pagina de erro 403 */
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 120px); 
+  background-color: #f9f9f9;
+}
+
+.error-box {
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 400px;
+}
+
+.error-box h2 {
+  color: #ff0000;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.error-box p {
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Ícones em cards */
+.reserva-card i {
+  font-size: 1rem;
+  color: #171717;
+  margin-right: 6px;
+  opacity: 0.95;
+  vertical-align: middle;
+}

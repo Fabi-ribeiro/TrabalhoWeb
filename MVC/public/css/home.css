@@ -1,0 +1,620 @@
+@import url('main.css');
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #f5f5f5;
+  margin: 0;
+  padding-top: var(--header-height);
+  padding-bottom: var(--footer-height);
+}
+
+/* Container principal */
+.container {
+  padding: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Cabeçalho da listagem */
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.header-left {
+  flex: 1;
+}
+
+.page-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.description {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Botão "Novo Item" */
+.btn-add {
+  background: #FFD400;
+  color: #000;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-add:hover {
+  background: #e6c000;
+  transform: translateY(-2px);
+}
+
+/* Área de busca e filtros */
+.search-area {
+    display: flex;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.search {
+    flex-grow: 1;
+    padding: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 97%;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+
+
+/* Container dos filtros */
+.filters {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0 10px 0;
+}
+
+/* Botões de filtro */
+.filter-btn {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 8px 18px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  transition: 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.10);
+}
+
+/* Hover */
+.filter-btn:hover {
+  background: #f7f7f7;
+  transform: translateY(-1px);
+}
+
+/* Estado ativo (amarelo) */
+.filter-btn.active {
+  background: #FFD400;
+  border-color: #e6c300;
+  color: #000;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.18);
+  transform: translateY(-2px);
+}
+
+
+/* Contagem */
+.count {
+  color: #444;
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Grade de itens */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(260px, 1fr));
+  gap: 24px;
+  justify-items: stretch;
+  align-items: start;
+  align-content: start; /* evitar que a grade centralize verticalmente quando há poucas linhas */
+  width: 100%;
+}
+
+/* Card de item */
+.item-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  overflow: hidden;
+  transition: transform 0.18s, box-shadow 0.18s;
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* preenche a célula da grid */
+  box-sizing: border-box;
+  min-height: 420px; /* garante que o footer dos cards fique alinhado */
+  padding-bottom: 12px; /* espaço extra abaixo dos botões */
+}
+
+.item-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.item-content {
+  flex: 1; /* empurra o footer para baixo */
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.item-footer {
+  margin-top: auto;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.item-footer a,
+.item-footer button {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.item-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.image-container {
+  width: 100%;
+  height: 200px; 
+  overflow: hidden;
+  background: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info {
+  flex: 1;              
+  padding: 1.1rem 1.2rem 1.2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.item-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.category {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.6rem;
+}
+
+.details {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1.2rem;
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 1.1rem;
+  align-items: center;
+  flex-wrap: wrap; /* permite quebra se necessário, evitando cortar informação */
+}
+
+.details span {
+  white-space: normal; /* permite quebra dentro do item sem truncar */
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.details span i {
+  margin-right: 4px;
+}
+
+/* Ações */
+.actions {
+  display: flex;
+  flex-direction: column; /* empilha os botões verticalmente */
+  gap: 12px; /* espaçamento igual entre botões */
+  padding: 0 12px 12px; /* espaço lateral e inferior dentro do card */
+  margin-top: auto;
+}
+
+.actions { /* espaço visual abaixo dos botões */
+  margin-bottom: 8px;
+}
+
+
+.actions > * {
+  box-sizing: border-box; /* garante que padding não aumente a largura visual */
+}
+
+.actions button,
+.actions a {
+  width: 100%; /* ocupa toda a largura do card (com padding lateral aplicado em .actions) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 0.72rem 0.9rem;
+  transition: all 0.16s ease;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  box-sizing: border-box; /* reforça para elementos internos também */
+}
+
+
+.actions .inline-form {
+  width: 100%;
+  margin: 0;
+}
+
+.actions .inline-form .btn-delete {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Botões individuais */
+.reserve-btn {
+  background: #FFD400;
+  color: #000;
+}
+
+.reserve-btn:hover {
+  background: #e6c000;
+  transform: translateY(-2px);
+}
+
+.btn-edit {
+  background: #007bff;
+  color: #fff;
+}
+
+.btn-edit:hover {
+  background: #0069d9;
+  transform: translateY(-2px);
+}
+
+.btn-delete {
+  background: #ff0019;
+  color: #fff;
+}
+
+.btn-delete:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+.items-grid .item-card .actions .btn-edit,
+.items-grid .item-card .actions .btn-delete {
+  color: #000 !important;
+}
+.items-grid .item-card .actions .btn-edit i,
+.items-grid .item-card .actions .btn-delete i {
+  color: #000 !important;
+}
+
+/* Form inline */
+.inline-form {
+  margin: 0;
+}
+
+/* Ícones */
+button i,
+a i {
+  margin-right: 0.4rem;
+}
+
+/* Normalizar ícones dentro dos cards para seguir o padrão global */
+.item-card i,
+.item-card .actions i,
+.item-card .details i {
+  /* estilo minimalista: menor, cor neutra e espaçamento reduzido */
+  font-size: 1rem;
+  color: #666;
+  margin-right: 0.45rem;
+  vertical-align: middle;
+  opacity: 0.95;
+}
+
+.actions i {
+  font-size: 1rem;
+  color: #fff; 
+  opacity: 0.98;
+}
+
+.card-disabled {
+  filter: grayscale(100%);
+  opacity: 0.6;
+}
+
+.tag-indisponivel {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #999;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Tag para indicar que a indisponibilidade vem de uma reserva pendente e aguarda verificação do administrador */
+.tag-pendente {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #ffb400; 
+  color: #111;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.tag-indisponivel,
+.tag-pendente {
+  z-index: 50;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 480px) {
+  .tag-indisponivel,
+  .tag-pendente {
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}
+
+.reserve-btn.disabled {
+  background: #bbb;
+  cursor: not-allowed;
+}
+
+.item-card i,
+.item-card .details i,
+.item-card .actions i {
+    font-size: 1rem;         
+    color: #171717;             
+    margin-right: 6px;        
+    opacity: 0.95;
+}
+
+.actions a i,
+.actions button i {
+    color: #000000;
+    opacity: 1;
+}
+
+.btn-pendentes {
+  background: #FFD400;    
+  color: #000;            
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-pendentes:hover {
+  background: #e6c000;
+  transform: translateY(-2px);
+}
+
+.btn-pendentes i {
+  font-size: 1rem;
+  color: #000;
+  margin-right: 6px;
+}
+
+
+/* Responsividade: mantém 4 colunas por linha; permite ajuste do header em telas pequenas */
+@media (max-width: 768px) {
+  .item-card {
+    width: 100%;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+/* Mobile: empilha os cards (1 por linha) e ajusta detalhes para telas pequenas */
+@media (max-width: 600px) {
+  .items-grid {
+    grid-template-columns: 1fr; /* um card por linha */
+    gap: 16px;
+  }
+
+  .item-card {
+    min-height: auto; /* permite cards de altura natural no mobile */
+    padding-bottom: 16px;
+  }
+
+  .image-container {
+    height: 180px; /* reduzir levemente a imagem no mobile */
+  }
+
+  .info {
+    padding: 12px;
+  }
+
+  .item-name {
+    font-size: 1rem;
+  }
+
+  .actions {
+    padding: 0 12px 16px; /* espaço lateral consistente */
+    gap: 10px;
+  }
+}
+/* Formulários de criação/edição */
+.form-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  max-width: 600px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #FFD400;
+  box-shadow: 0 0 0 2px rgba(255,212,0,0.2);
+}
+
+/* Botões de ação */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-save {
+  background: #FFD400;
+  color: #000;
+  border: none;
+  font-weight: 600;
+  padding: 0.8rem 1.2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  flex: 1;
+  text-align: center;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-save:hover {
+  background: #e6c000;
+  transform: translateY(-2px);
+}
+
+.btn-cancel {
+  background: #e0e0e0;
+  color: #333;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 0.8rem 1.2rem;
+  text-decoration: none;
+  text-align: center;
+  flex: 1;
+  transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+  background: #ccc;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filters-left {
+  display: flex;
+  gap: 10px;
+}
+
+.filters-right .btn-pendentes {
+  background-color: #ff9800;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.filters-right .btn-pendentes:hover {
+  background-color: #e68a00;
+}
+
+.filters-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}

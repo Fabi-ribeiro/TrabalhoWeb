@@ -1,0 +1,397 @@
+
+.reservas-page {
+  padding: 1.5rem;
+}
+
+/* 'Minhas Reservas' — mais espaçamento entre cards */
+.reservas-page .reservas-grid {
+  gap: 1.6rem; /* espaçamento entre os cards (horizontal/vertical) */
+  align-items: start; /* alinha os cards no topo para que fiquem pareados */
+  justify-content: center; /* centraliza a grade e deixa espaços laterais equilibrados */
+  padding: 0 2rem; /* espaço lateral maior para evitar que cards colem nas bordas */
+  grid-auto-rows: minmax(0, auto);
+}
+
+.reservas-page .reserva-card {
+  margin: 0; /* garante que o grid gerencie o espaçamento */
+  z-index: 0; /* garantir que os cards não sobreponham visualmente por ordem inesperada */
+}
+
+.reserva-card:hover { z-index: 5; }
+
+.reservas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 1.2rem;
+  justify-content: center;
+  align-items: start;
+  align-content: start;
+}
+
+/* Específico para telas que usam .container (ex: histórico) queremos cards mais largos */
+.container .reservas-grid {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.6rem;
+}
+
+.container .reserva-card {
+  max-width: 100%; /* deixar o grid controlar a largura dos cards */
+}
+
+/* Evitar quebra das linhas de datas no histórico; mantê-las lado a lado */
+.container .reserva-datas {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  white-space: nowrap; /* não quebrar linha */
+  overflow: visible;
+}
+
+.container .reserva-datas .reserva-datas-value {
+  white-space: nowrap;
+}
+
+
+@media (min-width: 1400px) {
+  .container .reservas-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (min-width: 1100px) and (max-width: 1399px) {
+  .container .reservas-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 720px) and (max-width: 1099px) {
+  .container .reservas-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 719px) {
+  .container .reservas-grid { grid-template-columns: 1fr; }
+}
+
+.reserva-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  /* mais espaçamento lateral, menos espaçamento vertical para aparência compacta */
+  padding: 0.75rem 1.6rem;
+  transition: box-shadow 0.2s, transform 0.15s;
+  max-width: 520px; /* permitir cards maiores em telas grandes */
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  position: relative;
+  display: flex; /* garantir que o card ocupe toda a célula do grid */
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Quando houver apenas UMA reserva */
+.reservas-grid:only-child,
+.reservas-grid:has(.reserva-card:nth-child(1):last-child) {
+  grid-template-columns: 1fr;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.reserva-card:hover {
+  box-shadow: 0 6px 16px rgba(0,0,0,0.14);
+}
+
+.reserva-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .reservas-grid {
+    grid-template-columns: 1fr; /* uma coluna em telas muito pequenas */
+    padding: 0 0.5rem;
+  }
+
+  .reserva-card {
+    max-width: none; /* ocupar toda a largura do grid */
+    margin: 0; 
+    padding: 1rem; /* espaçamento reduzido em mobile */
+  }
+
+  .reserva-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .reserva-header .status-badge {
+    align-self: flex-end; /* posiciona o badge no canto superior direito do card */
+  }
+
+  .finalidade-text {
+    font-size: 0.92rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+}
+
+.reserva-nome {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 0.3rem;
+}
+
+.finalidade-text {
+  font-size: 0.95rem;
+  margin: 0.08rem 0 0.22rem 0; /* reduzir espaçamento vertical para visual mais compacto */
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Cores por status */
+.status-badge.CONFIRMADA { background: #e6ffe6; color: #067d00; }
+.status-badge.PENDENTE { background: #fff8d1; color: #b38900; }
+.status-badge.CANCELADA { background: #ffe6e6; color: #fd0019; }
+.status-badge.CONCLUIDA { background: #e6f3ff; color: #005fa3; }
+
+
+.reserva-body {
+  font-size: 0.95rem;
+  color: #000000;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 0.12rem 0.6rem; /* espaçamento vertical ainda menor para compactar as linhas */
+  align-items: start;
+  margin-bottom: 0.35rem;
+}
+
+/* Garantir que cada célula dentro do body apresente label e valor na mesma linha */
+.reserva-body > div {
+  margin: 0;
+  display: flex;
+  gap: 0.2rem; /* reduzir gap entre ícone/label e valor */
+  align-items: center;
+  flex-wrap: nowrap; /* evita que rótulo e valor quebrem em linhas separadas */
+}
+
+/* Em telas pequenas permitimos quebra interna para não estourar o layout */
+@media (max-width: 480px) {
+  .reserva-body > div {
+    flex-wrap: wrap;
+  }
+}
+
+/* Em telas muito pequenas (mobile) empilhamos em uma coluna única */
+@media (max-width: 480px) {
+  .reserva-body {
+    display: block;
+  }
+}
+
+.reserva-body i {
+  margin-right: 2px;
+  font-weight: 600;
+}
+
+.reserva-body span.label {
+  font-weight: 600; /* negrito */
+  margin-right: 4px;
+}
+
+.reserva-body span.value {
+  font-weight: 400; /* normal */
+}
+
+.reserva-footer {
+  display: flex;
+  justify-content: center; 
+  margin-top: 0.6rem; 
+}
+
+.container .reserva-footer.form-actions {
+  padding: 0 8px; /* reduzir padding lateral para o botão ficar mais largo visualmente */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.container .reserva-footer.form-actions .btn-cancel {
+  width: 100%;
+  border-radius: 12px; /* combinar com o arredondamento dos botões de card */
+}
+
+.btn-cancelar {
+  background: #fd0019;
+  color: #0a0a0a;
+  border-radius: 10px;
+  padding: 0.6rem 1.2rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-cancelar:hover {
+  background: #c82333;
+}
+
+.btn-disabled {
+  background: #ccc;
+  color: #555;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: not-allowed;
+}
+
+.btn-confirmar {
+  background-color: #4caf50;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-confirmar:hover {
+  background-color: #45a049;
+}
+
+/* Deixar placeholder em cinza */
+input[type="time"]::placeholder {
+  color: #888;
+}
+
+/* Manter o texto cinza enquanto não estiver selecionado */
+input[type="time"]:not(:focus):invalid {
+  color: #777;
+}
+/* Estilos para formulários de reserva */
+.form-wrapper .reserva-card,
+.reserva-card.form-card {
+  max-width: 100%; /* deixar o card ocupar a largura disponível do form-card */
+  width: 100%;
+  box-sizing: border-box; /* incluir padding na largura total */
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important; 
+  border-radius: inherit; 
+}
+
+/* Inputs usados na tela de verificação devem seguir o padrão dos formulários */
+.reserva-card .input,
+.reserva-card input[type="number"],
+.reserva-card input[type="text"],
+.reserva-card textarea,
+.reserva-card select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  font-size: 0.95rem;
+}
+
+/* Garantir que labels e valores quebrem a linha sem estourar o container */
+.reserva-body .label,
+.reserva-body .value,
+.reserva-body div {
+  word-break: break-word;
+}
+
+/* Permitir que botões quebrem linha em telas pequenas para não exceder o container */
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.form-actions .btn-cancel,
+.form-actions .btn-confirm,
+.form-actions .btn-submit,
+.form-actions .btn-save {
+  flex: 1 1 140px; /* permitem encolher e crescer; dão um mínimo para legibilidade */
+  min-width: 120px;
+}
+
+@media (max-width: 420px) {
+  .form-wrapper,
+  .reserva-card.form-card {
+    padding: 1rem;
+  }
+  .form-actions {
+    gap: 0.5rem;
+  }
+}
+/* Regras de layout responsivo para a grade de reservas */
+@media (min-width: 1400px) {
+  .reservas-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.6rem;
+  }
+}
+
+@media (min-width: 1100px) and (max-width: 1399px) {
+  .reservas-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+  }
+}
+
+@media (min-width: 720px) and (max-width: 1099px) {
+  .reservas-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+}
+
+@media (max-width: 719px) {
+  .reservas-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+/* Fim das regras de layout para reservas */
+
+/* Estilos para a lista de informações da tela de verificação */
+.reserva-info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: block;
+}
+
+.reserva-info-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.18rem 0;
+  color: #111;
+  flex-wrap: nowrap; /* não permitir quebra entre rótulo (com dois-pontos) e valor */
+}
+
+.reserva-info-list li .info-icon {
+  width: 20px;
+  text-align: center;
+  color: #000000; /* ícone em preto */
+  font-size: 1.05rem;
+}
+
+.reserva-info-list li strong {
+  min-width: 0; /* remover largura fixa para evitar grande espaço entre rótulo e valor */
+  display: inline-block;
+  font-weight: 600;
+  white-space: nowrap; /* mantém o rótulo e os dois-pontos juntos */
+  margin-right: 6px; /* pequeno espaço entre o dois-pontos e o valor */
+}
+
+@media (max-width: 480px) {
+  .reserva-info-list li strong { min-width: 110px; }
+}
+/* Fim estilos da lista de informações */

@@ -1,0 +1,34 @@
+<nav class="nav-top">
+  <!-- Botões de navegação à esquerda -->
+  <div class="nav-left">
+    <a href="/home" class="nav-item {{#if activeInicio}}active{{/if}}">
+      <i class="fa-solid fa-home"></i>
+      <span>Início</span>
+    </a>
+
+    <a href="/reservas/list" class="nav-item {{#if activeReservas}}active{{/if}}">
+      <i class="fa-solid fa-calendar-alt"></i>
+      <span>Reservas</span>
+    </a>
+
+    <a href="/historico" class="nav-item {{#if activeHistorico}}active{{/if}}">
+      <i class="fa-solid fa-clock-rotate-left"></i>
+      <span>Histórico</span>
+    </a>
+
+    <a href="/perfil" class="nav-item {{#if activePerfil}}active{{/if}}">
+      <i class="fa-solid fa-user"></i>
+      <span>Perfil</span>
+    </a>
+  </div>
+  
+  <!-- Informações do usuário à direita -->
+  {{#if usuario}}
+  <div class="nav-right">
+    <span class="user">Olá, {{usuario.nome}}</span>
+    <a href="/logout" class="btn-logout">
+      <i class="fa-solid fa-right-from-bracket"></i> Sair
+    </a>
+  </div>
+  {{/if}}
+</nav>
